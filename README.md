@@ -142,5 +142,141 @@ There are three actio that our To-Do application needs to be able to do:
  1. Create a new task.
  2. Display list of all tasks.
  3. Delete a completed task.
+ Each task will be associated with some particular endpoint and will use different standard HTTP request methods : POST, GET, DELETE.
+
+- Created a folder routes :
+  ```
+    mkdir routes
+  ```
+
+-  Changed directory to routes folder :
+  ```
+  cd routes
+  ```
+
+- Created a file api.js and opened it :
+  ```
+    touch api.js
+    vim api.js
+  ```
+
+- Wrote the code into the file api.js :
+  ```
+               const express = require ('express');
+         const router = express.Router();
+         
+         router.get('/todos', (req, res, next) =&gt; {
+         
+         });
+         
+         router.post('/todos', (req, res, next) =&gt; {
+         
+         });
+         
+         router.delete('/todos/:id', (req, res, next) =&gt; {
+         
+         })
+         
+         module.exports = router;
+  ```
+    ![Routes](./images/routes.png)
+
+## MERN-Stack-104 : Creating Models directory 
+Since, the app was going to make use of Mongodb which is a NoSql database, needed to create a model. A model is the heart of Javascript based applications, and it is what makes it interactive. Used models to define the database schema. This is important so that we will be able to define the fields stored in each Mongodb document. The schema is a blueprint of how the database will bw constructed including other data fields that may not be required to be stored in the database. These are known as virtual properties.
+
+- In Todo directory, installed Mangoose 
+  ```
+  npm install mangoose
+  ```
+
+- Created new folder and changed directory into newly created folder and created a file todo.js :
+  ```
+    mkdir models && cd models && touch todo.js
+  ```
+
+- Opened todo.js and typed the code :
+  ```
+  vim todo.js
+  ```
+  ```
+        const mongoose = require('mongoose');
+        const Schema = mongoose.Schema;
+        
+        //create schema for todo
+        const TodoSchema = new Schema({
+        action: {
+        type: String,
+        required: [true, 'The todo text field is required']
+        }
+        })
+        
+        //create model for todo
+        const Todo = mongoose.model('todo', TodoSchema);
+        
+        module.exports = Todo;
+  ```
+
+- Updated routes from the file api.js in 'routes' directory to make use of the new model :
+  ```
+    vim api.js
+  ```
+
+  ```
+    const express = require('express');
+    const router = express.Router();
+    const Todo = require('../models/todo');
+
+    router.get('/todos', (req, res, next) => {
+    // Retrieve all todos, exposing only the id and action field to the client
+    Todo.find({}, 'action')
+        .then(data => res.json(data))
+        .catch(next)
+    });
+
+    router.post('/todos', (req, res, next) => {
+    if (req.body.action) {
+        Todo.create(req.body)
+            .then(data => res.json(data))
+            .catch(next)
+    } else {
+        res.json({
+            error: "The input field is empty"
+        })
+    }
+    });
+
+
+
+    router.delete('/todos/:id', (req, res, next) => {
+    Todo.findOneAndDelete({"_id": req.params.id})
+        .then(data => res.json(data))
+        .catch(next);
+    })
+
+    module.exports = router;
+  ```
+    ![Models](./images/models.png)
+
+## MERN-Stack-105 : Setting Up MongoDB Database
+To store data, needed a database. Created MongoDB databse using mlab :
+- Visited https://cloud.mongodb.com/
+- Signed up for an account.
+- Clicked on Create Cluster button.
+- Chose AWS cloud and region closest to me
+- Clicked on create cluster.
+    ![Database](./images/database1.png)
+### Configuration :
+
+- Created a Database User:
+- Went to the “Database Access” under the “Security” section.
+- Clicked on “Add New Database User”.
+- Entered a username and password. Ensured the “Read and Write to any database” option is selected.
+- Clicked "Add User".
+- Went back to cluster page, clicked in connect, select drivers and choose Mongoose , copied the conection url.
+    ![Database](./images/database2.png)
+    ![Database](./images/database3.png)
+
+### Connecting the app to MongoDb :
+
 
 
