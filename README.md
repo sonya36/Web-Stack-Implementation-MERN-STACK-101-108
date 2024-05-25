@@ -45,7 +45,7 @@ Linux Server in the cloud was created.
   ```
     curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
   ```
-    ![Nodejslocation](./images/locationubuntu.png)
+    ![Nodejslocation](./images/lubuntu.png)
     
 
 - Installed Node.js on the server :
@@ -285,7 +285,7 @@ To store data, needed a database. Created MongoDB databse using mlab :
     ![Env](./images/env1.png)
 - Added the connection string to access the database in it :
   ```
-
+      Db=mongodb+srv://<username>:<password>@clusternode.tngzjdp.mongodb.net/?retryWrites=true&w=majority&appName=Clusternode
   ```
 - Updated index.js file with the code :
   ```
