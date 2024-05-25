@@ -351,7 +351,45 @@ Backend part of To-do application and database had been configured successfully.
 ### Conclusion 
 Test successful.
 
-## MERN-Stack-107 : 
+## MERN-Stack-107 : Frontend Creation
+Functionality from backend and API was done, it was the time to create a user interface for a web client(browser) to interact with application via API.
+- Started with forntend of To-do app in Todo directory:
+  ```
+    npx create-react-app client
+  ```
+Note : Here, t3.micro didn't give enough storage to install react app in free tier so I switched to t3.small as instance type.
+- Installing some dependiences of React App
+  ```
+    npm install concurrently --save-dev
+  ```
+  ```
+    npm install nodeman --save-dev
+  ```
+- In Todo folder open the package.json file and updated the file with code :
+  ```
+    "scripts":{
+    "start": "node index.js",
+    "start-watch": "nodemon index.js",
+    "dev": "concurrently \"npm run start-watch\" \"cd client &amp;&amp; npm start\""
+    },
+  ```
+- Configured proxy in package.json 
+  ```
+    cd client
+  ```
+  ```
+    vi package.json
+  ```
+  ```
+    "proxy": "http:/localhost:5000"
+  ```
+- Inside Todo directory :
+  ```
+    npm run dev
+  ```
+    ![React](./images/react.png)
+
+
 
 
 
