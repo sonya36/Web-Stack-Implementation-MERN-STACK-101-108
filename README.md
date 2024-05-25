@@ -277,6 +277,82 @@ To store data, needed a database. Created MongoDB databse using mlab :
     ![Database](./images/database3.png)
 
 ### Connecting the app to MongoDb :
+- Created .env file in Todo directory :
+  ```
+    touch .env
+    vi .env
+  ```
+    ![Env](./images/env1.png)
+- Added the connection string to access the database in it :
+  ```
+
+  ```
+- Updated index.js file with the code :
+  ```
+        const express = require('express');
+       const bodyParser = require('body-parser');
+       const mongoose = require('mongoose');
+       const routes = require('./routes/api');
+       const path = require('path');
+       require('dotenv').config();
+       
+       const app = express();
+       
+       const port = process.env.PORT || 5000;
+       
+       //connect to the database
+      mongoose.connect(process.env.DB)
+      .then(() => console.log('Database connected successfully'))
+     .catch(err => console.log('Error connecting to MongoDB:', err));
+
+       
+       //since mongoose promise is depreciated, we overide it with node's promise
+       mongoose.Promise = global.Promise;
+       
+       app.use((req, res, next) => {
+       res.header("Access-Control-Allow-Origin", "\*");
+       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+       next();
+       });
+       
+       app.use(bodyParser.json());
+       
+       app.use('/api', routes);
+       
+       app.use((err, req, res, next) =>  {
+       console.log(err);
+       next();
+       });
+       
+       app.listen(port, () =>  {
+       console.log(`Server running on port ${port}`)
+       });
+  ```
+- Started server and get the output as 'Database connected successfully' :
+  ```
+    node index.js
+  ```
+    ![Env](./images/env2.png)
+### Conclusion
+Backend part of To-do application and database had been configured successfully.
+
+## MERN-Stack-106 : Testing Backend Code Without Frontend using RESTfulAPI
+- Used Postman to test our API. 
+- Installed Postman in my machine and perform POST, GET and DELETE request to the API :
+  ```
+    http://<Public-Ip>:5000/api/todos
+  ```
+
+- Output :
+    ![Postman](./images/post.png)
+    ![Postman](./images/get.png)
+    ![Postman](./images/delete.png)
+
+### Conclusion 
+Test successful.
+
+## MERN-Stack-107 : 
+
 
 
 
